@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Poppins", sans-serif;
+  }
+
+  /* Global focus ring — cyan accent */
+  :focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Form inputs: dark fill so placeholders are readable */
+  input,
+  textarea {
+    background-color: #111827;
+    color: #f4f4f5;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #71717a;
+  }
+}

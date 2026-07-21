@@ -1,0 +1,163 @@
+import { useEffect, useState, useCallback } from "react";
+import { FiX } from "react-icons/fi";
+
+const CertModal = ({ cert, onClose }) => {
+  const [imgError, setImgError] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => { onClose(); setClosing(false); }, 260);
+  }, [onClose]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = "auto"; };
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") handleClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [handleClose]);
+
+  if (!cert) return null;
+
+  const hasImage = cert.image && !imgError;
+
+  return (
+    <div
+      onClick={handleClose}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+      style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden border border-zinc-800 bg-zinc-950 flex flex-col"
+        style={{
+          boxShadow: `0 0 50px ${cert.colorFrom}20, 0 20px 50px rgba(0,0,0,0.7)`,
+          transform: closing ? "translateY(20px) scale(0.97)" : "translateY(0) scale(1)",
+          opacity: closing ? 0 : 1,
+          transition: "transform 0.26s ease, opacity 0.26s ease",
+        }}
+      >
+        {/* Drag handle — mobile only */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full bg-zinc-700" />
+        </div>
+
+        {/* Top gradient bar */}
+        <div className="h-1 w-full"
+             style={{ background: `linear-gradient(90deg, ${cert.colorFrom}, ${cert.colorTo})` }} />
+
+        {/* Image / placeholder */}
+        <div className="relative bg-zinc-900 flex items-center justify-center overflow-hidden"
+             style={{ minHeight: hasImage ? "180px" : "140px" }}>
+
+          {hasImage ? (
+            <img
+              src={cert.image}
+              alt={cert.title}
+              className="w-full object-contain max-h-64"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-3 py-8 px-6">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl text-white shadow-xl"
+                   style={{ background: `linear-gradient(135deg, ${cert.colorFrom}, ${cert.colorTo})` }}>
+                <i className={cert.icon} />
+              </div>
+              <p className="text-zinc-500 text-xs text-center leading-relaxed">
+                Belum ada gambar sertifikat.&nbsp;
+                <span className="text-zinc-600">
+                  Tambahkan file ke{" "}
+                  <code className="text-cyan-500 bg-zinc-800 px-1 rounded">
+                    public/assets/certs/
+                  </code>
+                </span>
+              </p>
+            </div>
+          )}
+
+          {/* Close button */}
+          <button
+            onClick={handleClose}
+            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
+            style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.1)" }}
+          >
+            <FiX size={15} />
+          </button>
+        </div>
+
+        {/* Info */}
+        <div className="p-5 flex flex-col gap-4">
+
+          {/* Title + issuer */}
+          <div>
+            <h3 className="text-lg font-bold text-white leading-snug mb-1">{cert.title}</h3>
+            <p className="text-sm text-zinc-400 flex items-center gap-1.5">
+              <i className="ri-building-line text-zinc-600 text-sm" />
+              {cert.issuer}
+            </p>
+          </div>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2">
+            <span
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full"
+              style={{
+                background: `${cert.colorFrom}18`,
+                color: cert.colorFrom,
+                border: `1px solid ${cert.colorFrom}40`,
+              }}
+            >
+              <i className="ri-calendar-line" />
+              {cert.year}
+            </span>
+            <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
+              <i className="ri-verified-badge-line" />
+              Terverifikasi
+            </span>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-col gap-2.5">
+            {/* Google Drive button — primary */}
+            {cert.driveUrl ? (
+              <a
+                href={cert.driveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-sm text-white w-full transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                style={{
+                  background: `linear-gradient(135deg, ${cert.colorFrom}, ${cert.colorTo})`,
+                  boxShadow: `0 6px 20px ${cert.colorFrom}30`,
+                }}
+              >
+                <i className="ri-drive-line text-base" />
+                Lihat Dokumen di Google Drive
+              </a>
+            ) : (
+              /* Disabled state */
+              <div className="flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-sm text-zinc-600 w-full border border-zinc-800 bg-zinc-900/50 cursor-not-allowed select-none">
+                <i className="ri-drive-line text-base" />
+                Link Google Drive belum tersedia
+              </div>
+            )}
+
+            {/* Tambahkan link hint */}
+            {!cert.driveUrl && (
+              <p className="text-[10px] text-zinc-600 text-center leading-relaxed">
+                Tambahkan <code className="text-cyan-600 bg-zinc-900 px-1 rounded">driveUrl</code> pada{" "}
+                <code className="text-cyan-600 bg-zinc-900 px-1 rounded">data.js</code> untuk mengaktifkan tombol ini.
+              </p>
+            )}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CertModal;
