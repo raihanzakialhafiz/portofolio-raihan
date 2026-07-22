@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "experience": "Pengalaman",
+    "certs": "Sertifikat",
+    "projects": "Proyek",
+    "contact": "Kontak",
+    "cta": "Hubungi Saya",
+    "toggleMenu": "Buka menu",
+    "switchLanguage": "Ganti bahasa"
+  },
+  "hero": {
+    "quote": "Kode dengan semangat, bangun dengan tujuan",
+    "greeting": "Halo, saya Raihan Zaki Alhafiz",
+    "blurb": "Full Stack Web Developer yang berfokus membangun aplikasi web modern dengan Laravel, Vue.js, dan React — mulai dari antarmuka interaktif hingga RESTful API dan integrasi basis data.",
+    "downloadCv": "Unduh CV",
+    "exploreProjects": "Lihat Proyek Saya",
+    "avatarAlt": "Raihan Zaki Alhafiz",
+    "profileTitle": "Full Stack Developer",
+    "profileStatus": "Online",
+    "profileContact": "Hubungi Saya"
+  },
+  "about": {
+    "title": "Tentang Saya",
+    "description": "Saya Raihan Zaki Alhafiz, seorang Full Stack Web Developer dengan latar belakang Teknik Informatika dari Universitas Sebelas Maret. Saya berpengalaman mengembangkan aplikasi web modern dan responsif menggunakan Laravel, Vue.js, dan React — menguasai pengembangan front-end maupun back-end, termasuk RESTful API, sistem autentikasi, dan integrasi basis data. Berkomitmen menghadirkan solusi web yang scalable dan berkualitas tinggi.",
+    "projectsFinished": "Proyek Selesai",
+    "yearsExperience": "Tahun Pengalaman",
+    "gpa": "IPK",
+    "motto": "Bekerja dengan hati, berkarya dengan pikiran."
+  },
+  "tools": {
+    "title": "Tools & Teknologi",
+    "subtitle": "Teknologi yang saya gunakan untuk membangun pengalaman web modern"
+  },
+  "experience": {
+    "title": "Pengalaman & Pendidikan",
+    "subtitle": "Perjalanan saya sejauh ini",
+    "filter": {
+      "all": "Semua",
+      "work": "Kerja",
+      "education": "Pendidikan",
+      "organization": "Organisasi"
+    }
+  },
+  "certs": {
+    "title": "Sertifikat & Penghargaan",
+    "subtitle": "Pembelajaran dan pengakuan berkelanjutan",
+    "count_other": "{{count}} sertifikat",
+    "viewDocument": "Lihat Dokumen",
+    "noLink": "Belum ada link",
+    "detail": "Detail",
+    "verified": "Terverifikasi",
+    "viewOnDrive": "Lihat Dokumen di Google Drive",
+    "driveUnavailable": "Link Google Drive belum tersedia",
+    "noImage": "Belum ada gambar sertifikat."
+  },
+  "projects": {
+    "title": "Proyek",
+    "subtitle": "Menampilkan sejumlah proyek yang mencerminkan keahlian, kreativitas, dan semangat saya dalam membangun pengalaman digital yang bermakna.",
+    "techStack": "Tech Stack",
+    "viewSource": "Lihat Source Code",
+    "sourceUnavailable": "Source code belum tersedia"
+  },
+  "contact": {
+    "title": "Kontak & Obrolan",
+    "subtitle": "Hubungi saya atau mengobrol langsung secara real-time",
+    "connectTitle": "Mari Terhubung",
+    "connectSubtitle": "Pilih kanal yang paling nyaman — saya akan merespons secepatnya.",
+    "openToWork": "Terbuka untuk peluang baru",
+    "whatsappValue": "Chat langsung — respons cepat",
+    "whatsappText": "Halo Raihan, saya melihat portofolio Anda dan ingin berdiskusi.",
+    "emailSubject": "Kerja Sama via Portofolio",
+    "formName": "Nama Lengkap",
+    "formNamePlaceholder": "Nama lengkap Anda...",
+    "formEmail": "Email",
+    "formEmailPlaceholder": "email@anda.com",
+    "formMessage": "Pesan",
+    "formMessagePlaceholder": "Apa yang ingin Anda diskusikan?",
+    "formSend": "Kirim Pesan",
+    "formSubject": "Pesan baru dari Portofolio"
+  },
+  "footer": {
+    "copyright": "© {{year}} Raihan Zaki Alhafiz. Dibangun dengan React & Tailwind CSS.",
+    "home": "Beranda",
+    "about": "Tentang Saya",
+    "project": "Proyek"
+  }
+}

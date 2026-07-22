@@ -1,30 +1,80 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { pick } from "./i18n";
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import ShinyText from "./components/ShinyText/ShinyText";
 import BlurText from "./components/BlurText/BlurText";
-import Lanyard from "./components/Lanyard/Lanyard";
+// Lanyard (three.js + rapier) dimuat lazy & hanya saat mendekati viewport
+import LanyardLazy from "./components/Lanyard/LanyardLazy";
 import { listTools, listProyek, listExperience, listCerts } from "./data";
 import ChromaGrid from "./components/ChromaGrid/ChromaGrid";
 import ProjectModal from "./components/ProjectModal/ProjectModal";
 import CertModal from "./components/CertModal/CertModal";
 import Aurora from "./components/Aurora/Aurora";
 import AOS from 'aos';
-// import ChatRoom from "./components/ChatRoom"; // Aktifkan setelah Firebase dikonfigurasi
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 // ..
 AOS.init();
 
+// Kanal kontak langsung — murni tautan, tanpa backend/database.
+const buildContacts = (t) => [
+  {
+    label: "WhatsApp",
+    value: t("contact.whatsappValue"),
+    href: `https://wa.me/6281277751127?text=${encodeURIComponent(t("contact.whatsappText"))}`,
+    icon: "ri-whatsapp-line",
+    color: "#25D366",
+  },
+  {
+    label: "Email",
+    value: "raihanzaki121203@gmail.com",
+    href: `mailto:raihanzaki121203@gmail.com?subject=${encodeURIComponent(t("contact.emailSubject"))}`,
+    icon: "ri-mail-line",
+    color: "#22d3ee",
+  },
+  {
+    label: "LinkedIn",
+    value: "in/raihanzaki12",
+    href: "https://www.linkedin.com/in/raihanzaki12/",
+    icon: "ri-linkedin-fill",
+    color: "#0A66C2",
+  },
+  {
+    label: "GitHub",
+    value: "@raihanzaki03",
+    href: "https://github.com/raihanzaki03",
+    icon: "ri-github-fill",
+    color: "#a1a1aa",
+  },
+];
+
 function App() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const { t, i18n } = useTranslation();
+  const lang = i18n.resolvedLanguage;
+  const contacts = buildContacts(t);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [expFilter, setExpFilter] = useState('all');
   const [selectedCert, setSelectedCert] = useState(null);
 
+  // Field teks proyek disimpan dwibahasa → resolusikan sekali sesuai bahasa aktif.
+  const proyek = listProyek.map((p) => ({
+    ...p,
+    title: pick(p.title, lang),
+    subtitle: pick(p.subtitle, lang),
+    fullDescription: pick(p.fullDescription, lang),
+    duration: pick(p.duration, lang),
+    client: pick(p.client, lang),
+  }));
+
+  // Simpan id (bukan objeknya) supaya modal yang terbuka ikut berganti bahasa.
+  const selectedProject = proyek.find((p) => p.id === selectedProjectId) ?? null;
+
   const handleProjectClick = (project) => {
-    setSelectedProject(project);
+    setSelectedProjectId(project.id);
   };
 
   const handleCloseModal = () => {
-    setSelectedProject(null);
+    setSelectedProjectId(null);
   };
   // -------------------------
 
@@ -43,17 +93,18 @@ function App() {
         <div className="hero grid md:grid-cols-2 items-center pt-10 xl:gap-0 gap-6 grid-cols-1">
           <div className="animate__animated animate__fadeInUp animate__delay-3s">
             <div className="flex items-center gap-3 mb-5 sm:mb-6 bg-zinc-900/80 w-fit max-w-full p-3 sm:p-4 rounded-2xl text-sm border border-zinc-700/60 shadow-[inset_0_1px_0_rgba(255,255,255,.04)] backdrop-blur-sm">
-              <img src={`${import.meta.env.BASE_URL}assets/raihan.png`} alt="Raihan Zaki Alhafiz" className="w-10 rounded-md" />
-              <q>Code with passion, build with purpose</q>
+              <img src={`${import.meta.env.BASE_URL}assets/raihan.png`} alt={t("hero.avatarAlt")} className="w-10 rounded-md" />
+              <q>{t("hero.quote")}</q>
             </div>
             <div className="mb-4 sm:mb-6">
               <div className="w-10 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" />
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-                <ShinyText text="Hi I'm Raihan Zaki Alhafiz" disabled={false} speed={3} className='custom-class' />
+                <ShinyText text={t("hero.greeting")} disabled={false} speed={3} className='custom-class' />
               </h1>
             </div>
             <BlurText
-              text="An Informatics Engineering student focused on Full Stack Web Development, experienced in building modern web apps using Laravel, Vue.js, and React — from interactive UIs to RESTful APIs and database integration."
+              text={t("hero.blurb")}
+              key={lang}
               delay={150}
               animateBy="words"
               direction="top"
@@ -66,14 +117,14 @@ function App() {
                 className="font-semibold flex items-center gap-2 px-6 py-3.5 rounded-full bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] transition-all duration-300"
               >
                 <i className="ri-download-2-line text-base" />
-                <ShinyText text="Download CV" disabled={false} speed={3} className="custom-class" />
+                <ShinyText text={t("hero.downloadCv")} disabled={false} speed={3} className="custom-class" />
               </a>
               <a
                 href="#project"
                 className="font-semibold flex items-center gap-2 px-6 py-3.5 rounded-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white hover:bg-zinc-800/80 transition-all duration-300"
               >
                 <i className="ri-folder-2-line text-base" />
-                <ShinyText text="Explore My Projects" disabled={false} speed={3} className="custom-class" />
+                <ShinyText text={t("hero.exploreProjects")} disabled={false} speed={3} className="custom-class" />
               </a>
             </div>
 
@@ -81,10 +132,10 @@ function App() {
           <div className="md:ml-auto animate__animated animate__fadeInUp animate__delay-4s">
             <ProfileCard
               name="Raihan Zaki A"
-              title="Full Stack Developer"
+              title={t("hero.profileTitle")}
               handle="raihanzaki03"
-              status="Online"
-              contactText="Contact Me"
+              status={t("hero.profileStatus")}
+              contactText={t("hero.profileContact")}
               avatarUrl={`${import.meta.env.BASE_URL}assets/raihan.png`}
               showUserInfo={true}
               enableTilt={true}
@@ -113,12 +164,13 @@ function App() {
                 <div className="mb-4 sm:mb-5">
                   <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 mb-3" />
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                    About Me
+                    {t("about.title")}
                   </h2>
                 </div>
 
                 <BlurText
-                  text="I’m Raihan Zaki Alhafiz, an Informatics Engineering student at Sebelas Maret University with a focus on Full Stack Web Development. I have experience developing modern and responsive web applications using Laravel, Vue.js, and React — skilled in both front-end and back-end development, including RESTful APIs, authentication systems, and database integration. Committed to delivering scalable and high-quality web solutions."
+                  text={t("about.description")}
+                  key={lang}
                   delay={150}
                   animateBy="words"
                   direction="top"
@@ -132,7 +184,7 @@ function App() {
                       <i className="ri-folder-check-line text-violet-400 text-sm" />
                     </div>
                     <h3 className="text-3xl md:text-4xl font-bold">6<span className="text-violet-500">+</span></h3>
-                    <p className="text-sm text-zinc-400">Project Finished</p>
+                    <p className="text-sm text-zinc-400">{t("about.projectsFinished")}</p>
                   </div>
 
                   <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-zinc-600 to-transparent" aria-hidden="true" />
@@ -143,7 +195,7 @@ function App() {
                       <i className="ri-time-line text-cyan-400 text-sm" />
                     </div>
                     <h3 className="text-3xl md:text-4xl font-bold">3<span className="text-violet-500">+</span></h3>
-                    <p className="text-sm text-zinc-400">Years of Experience</p>
+                    <p className="text-sm text-zinc-400">{t("about.yearsExperience")}</p>
                   </div>
 
                   <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-zinc-600 to-transparent" aria-hidden="true" />
@@ -154,13 +206,13 @@ function App() {
                       <i className="ri-graduation-cap-line text-amber-400 text-sm" />
                     </div>
                     <h3 className="text-3xl md:text-4xl font-bold">3.80<span className="text-violet-500">/4.00</span></h3>
-                    <p className="text-sm text-zinc-400">GPA</p>
+                    <p className="text-sm text-zinc-400">{t("about.gpa")}</p>
                   </div>
                 </div>
 
 
                 <ShinyText
-                  text="Working with heart, creating with mind."
+                  text={t("about.motto")}
                   disabled={false}
                   speed={3}
                   className="text-sm md:text-base text-violet-400"
@@ -170,7 +222,7 @@ function App() {
 
             {/* Kolom kanan */}
             <div className="basis-full md:basis-5/12 pl-0 md:pl-8 overflow-hidden max-w-full flex justify-center ">
-              <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+              <LanyardLazy position={[0, 0, 15]} gravity={[0, -40, 0]} />
             </div>
           </div>
 
@@ -178,10 +230,10 @@ function App() {
         <div className="tools mt-24 sm:mt-32">
           <div data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
             <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" />
-            <h2 className="text-3xl sm:text-4xl font-bold mb-2 leading-snug">Tools &amp; Technologies</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2 leading-snug">{t("tools.title")}</h2>
           </div>
           <p className="w-full sm:w-2/5 text-sm sm:text-base leading-loose text-zinc-500" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
-            Technologies I use to build modern web experiences
+            {t("tools.subtitle")}
           </p>
           <div className="tools-box mt-8 sm:mt-14 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-3 sm:gap-4">
 
@@ -191,11 +243,19 @@ function App() {
                 className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 border border-zinc-700/50 rounded-xl bg-zinc-900/60 backdrop-blur-md hover:bg-zinc-800/90 hover:border-zinc-500/70 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 group cursor-default"
               >
                 <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-lg bg-zinc-800/80 border border-zinc-700/50 group-hover:border-zinc-600 group-hover:bg-zinc-800 p-1.5 sm:p-2 flex items-center justify-center transition-all duration-300">
-                  <img
-                    src={tool.gambar}
-                    alt={tool.nama}
-                    className="w-full h-full object-contain"
-                  />
+                  {tool.gambar ? (
+                    <img
+                      src={tool.gambar}
+                      alt={tool.nama}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <tool.Icon
+                      aria-label={tool.nama}
+                      className="w-full h-full"
+                      style={{ color: tool.color }}
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col overflow-hidden">
                   <div className="truncate">
@@ -206,7 +266,7 @@ function App() {
                       className="text-sm sm:text-base font-semibold block"
                     />
                   </div>
-                  <p className="text-sm text-zinc-400 truncate">{tool.ket}</p>
+                  <p className="text-sm text-zinc-400 truncate">{pick(tool.ket, lang)}</p>
                 </div>
               </div>
             ))}
@@ -220,21 +280,21 @@ function App() {
               <div data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
                 <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" />
                 <h2 className="text-3xl sm:text-4xl font-bold mb-2 leading-snug">
-                  Pengalaman &amp; Pendidikan
+                  {t("experience.title")}
                 </h2>
               </div>
               <p className="text-sm sm:text-base leading-loose text-zinc-500" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" data-aos-once="true">
-                Perjalanan saya sejauh ini
+                {t("experience.subtitle")}
               </p>
             </div>
 
             {/* Filter tabs */}
             <div className="flex flex-wrap gap-2" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
               {[
-                { key: 'all',          label: 'Semua',      icon: 'ri-apps-line' },
-                { key: 'work',         label: 'Kerja',      icon: 'ri-briefcase-4-line' },
-                { key: 'education',    label: 'Pendidikan', icon: 'ri-graduation-cap-line' },
-                { key: 'organization', label: 'Organisasi', icon: 'ri-group-line' },
+                { key: 'all', label: t("experience.filter.all"), icon: 'ri-apps-line' },
+                { key: 'work', label: t("experience.filter.work"), icon: 'ri-briefcase-4-line' },
+                { key: 'education', label: t("experience.filter.education"), icon: 'ri-graduation-cap-line' },
+                { key: 'organization', label: t("experience.filter.organization"), icon: 'ri-group-line' },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -287,20 +347,20 @@ function App() {
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-1.5">
                         <span className={`text-xs font-bold uppercase tracking-wider ${colors.period}`}>
-                          {item.period}
+                          {pick(item.period, lang)}
                         </span>
                         <span className={`text-xs px-2.5 py-0.5 rounded-full border font-semibold ${colors.badge}`}>
-                          {item.badge}
+                          {pick(item.badge, lang)}
                         </span>
                       </div>
                       <h3 className="font-bold text-base mb-0.5 group-hover:text-white transition-colors leading-snug">
-                        {item.title}
+                        {pick(item.title, lang)}
                       </h3>
                       <p className="text-xs text-zinc-500 mb-2 flex items-center gap-1">
                         <i className="ri-map-pin-line text-zinc-600" />
-                        {item.place}
+                        {pick(item.place, lang)}
                       </p>
-                      <p className="text-xs text-zinc-400 leading-relaxed line-clamp-3">{item.desc}</p>
+                      <p className="text-xs text-zinc-400 leading-relaxed line-clamp-3">{pick(item.desc, lang)}</p>
                     </div>
                   </div>
                 );
@@ -317,11 +377,11 @@ function App() {
                data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
             <div>
               <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-amber-400 to-violet-500 mb-3" />
-              <h2 className="text-3xl sm:text-4xl font-bold mb-1 leading-snug">Sertifikat &amp; Penghargaan</h2>
-              <p className="text-sm sm:text-base text-zinc-500">Pembelajaran dan pengakuan berkelanjutan</p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-1 leading-snug">{t("certs.title")}</h2>
+              <p className="text-sm sm:text-base text-zinc-500">{t("certs.subtitle")}</p>
             </div>
             <span className="self-start sm:self-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400">
-              {listCerts.length} sertifikat
+              {t("certs.count", { count: listCerts.length })}
             </span>
           </div>
 
@@ -376,16 +436,16 @@ function App() {
                       className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
                     >
                       <i className="ri-drive-line text-sm" />
-                      <span>Lihat Dokumen</span>
+                      <span>{t("certs.viewDocument")}</span>
                     </a>
                   ) : (
                     <span className="text-[10px] sm:text-xs text-zinc-600 group-hover:text-zinc-500 transition-colors flex items-center gap-1">
                       <i className="ri-link text-xs" />
-                      Belum ada link
+                      {t("certs.noLink")}
                     </span>
                   )}
                   <span className="text-[10px] sm:text-xs text-zinc-600 group-hover:text-zinc-400 transition-colors flex items-center gap-1">
-                    <i className="ri-eye-line" /> Detail
+                    <i className="ri-eye-line" /> {t("certs.detail")}
                   </span>
                 </div>
               </div>
@@ -398,16 +458,16 @@ function App() {
         <div className="proyek mt-24 sm:mt-32 py-6 sm:py-10" id="project" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true"></div>
         <div className="flex flex-col items-center">
           <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true" />
-          <h2 className="text-center text-3xl sm:text-4xl font-bold mb-2" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">Project</h2>
+          <h2 className="text-center text-3xl sm:text-4xl font-bold mb-2" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">{t("projects.title")}</h2>
           <p className="text-sm sm:text-base leading-loose text-center text-zinc-500 max-w-2xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" data-aos-once="true">
-            Showcasing a selection of projects that reflect my skills, creativity, and passion for building meaningful digital experiences.
+            {t("projects.subtitle")}
           </p>
         </div>
         <div className="proyek-box mt-14" >
 
           <div style={{ height: 'auto', position: 'relative' }} data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" data-aos-once="true" >
             <ChromaGrid
-              items={listProyek}
+              items={proyek}
               onItemClick={handleProjectClick} // Kirim fungsi untuk handle klik
               radius={500}
               damping={0.45}
@@ -423,7 +483,7 @@ function App() {
         <div className="kontak mt-24 sm:mt-32" id="contact">
           <div className="flex flex-col items-center" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
             <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" />
-            <h2 className="text-4xl mb-2 font-bold text-center">Contact &amp; Chat</h2>
+            <h2 className="text-4xl mb-2 font-bold text-center">{t("contact.title")}</h2>
           </div>
           <p
             className="text-base/loose text-center mb-10 opacity-50"
@@ -432,28 +492,55 @@ function App() {
             data-aos-delay="300"
             data-aos-once="true"
           >
-            Get in touch with me or chat in real-time
+            {t("contact.subtitle")}
           </p>
 
           {/* Container dua kolom */}
           <div className="flex flex-col md:flex-row gap-8">
-            {/* Chat Room di kiri — coming soon card */}
+            {/* Direct Contact di kiri */}
             <div
-              className="flex-1 border border-dashed border-zinc-700/60 bg-zinc-900/50 rounded-2xl flex flex-col items-center justify-center gap-4 min-h-[300px] relative overflow-hidden"
+              className="flex-1 border border-zinc-700/50 bg-zinc-900/60 backdrop-blur-sm rounded-2xl p-5 sm:p-8 flex flex-col gap-5 min-h-[300px] relative overflow-hidden shadow-xl"
               data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" data-aos-once="true"
             >
               {/* Subtle glow */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.04) 0%, transparent 70%)' }} />
-              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center z-10">
-                <i className="ri-chat-3-line text-2xl text-cyan-400" />
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at top, rgba(34,211,238,0.05) 0%, transparent 70%)' }} />
+
+              <div className="z-10">
+                <h3 className="text-white font-bold text-xl mb-1">{t("contact.connectTitle")}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">
+                  {t("contact.connectSubtitle")}
+                </p>
               </div>
-              <div className="text-center z-10 px-6">
-                <p className="text-white font-semibold text-lg mb-1">Chat Room</p>
-                <p className="text-zinc-500 text-sm leading-relaxed">Live chat feature coming soon.<br />Firebase integration in progress.</p>
+
+              <div className="z-10 flex flex-col gap-3">
+                {contacts.map((c) => (
+                  <a
+                    key={c.label}
+                    href={c.href}
+                    // mailto: dibuka di tab yang sama agar tidak menyisakan tab kosong
+                    target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    className="group/link flex items-center gap-3 p-3 rounded-xl border border-zinc-700/60 bg-zinc-800/40 hover:bg-zinc-800/80 hover:-translate-y-0.5 transition-all duration-300"
+                    style={{ borderColor: `${c.color}33` }}
+                  >
+                    <span
+                      className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-lg"
+                      style={{ background: `${c.color}1a`, color: c.color, border: `1px solid ${c.color}40` }}
+                    >
+                      <i className={c.icon} />
+                    </span>
+                    <span className="flex flex-col min-w-0">
+                      <span className="text-sm font-semibold text-zinc-200">{c.label}</span>
+                      <span className="text-xs text-zinc-500 truncate">{c.value}</span>
+                    </span>
+                    <i className="ri-arrow-right-up-line ml-auto text-zinc-600 group-hover/link:text-zinc-300 transition-colors" />
+                  </a>
+                ))}
               </div>
-              <span className="z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                Coming soon
+
+              <span className="z-10 mt-auto self-start inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {t("contact.openToWork")}
               </span>
             </div>
 
@@ -469,16 +556,23 @@ function App() {
                 data-aos-delay="500"
                 data-aos-once="true"
               >
+                {/* Opsi FormSubmit */}
+                <input type="hidden" name="_subject" value={t("contact.formSubject")} />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value="https://raihanzakialhafiz.github.io/portofolio-raihan/" />
+                {/* Honeypot anti-spam */}
+                <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-col gap-2">
                     <label className="font-semibold flex items-center gap-2 text-zinc-300">
                       <i className="ri-user-3-line text-cyan-400 text-base" />
-                      Full Name
+                      {t("contact.formName")}
                     </label>
                     <input
                       type="text"
                       name="Name"
-                      placeholder="Your full name..."
+                      placeholder={t("contact.formNamePlaceholder")}
                       className="w-full border border-zinc-700/60 px-4 py-3 rounded-xl placeholder-zinc-500 focus:outline-none focus:border-cyan-500/60 focus:shadow-[0_0_0_3px_rgba(34,211,238,0.1)] transition-all duration-200"
                       required
                     />
@@ -486,12 +580,12 @@ function App() {
                   <div className="flex flex-col gap-2">
                     <label className="font-semibold flex items-center gap-2 text-zinc-300">
                       <i className="ri-mail-line text-cyan-400 text-base" />
-                      Email
+                      {t("contact.formEmail")}
                     </label>
                     <input
                       type="email"
                       name="Email"
-                      placeholder="your@email.com"
+                      placeholder={t("contact.formEmailPlaceholder")}
                       className="w-full border border-zinc-700/60 px-4 py-3 rounded-xl placeholder-zinc-500 focus:outline-none focus:border-cyan-500/60 focus:shadow-[0_0_0_3px_rgba(34,211,238,0.1)] transition-all duration-200"
                       required
                     />
@@ -499,13 +593,13 @@ function App() {
                   <div className="flex flex-col gap-2">
                     <label htmlFor="message" className="font-semibold flex items-center gap-2 text-zinc-300">
                       <i className="ri-message-3-line text-cyan-400 text-base" />
-                      Message
+                      {t("contact.formMessage")}
                     </label>
                     <textarea
                       name="message"
                       id="message"
                       rows="7"
-                      placeholder="What would you like to discuss?"
+                      placeholder={t("contact.formMessagePlaceholder")}
                       className="w-full border border-zinc-700/60 px-4 py-3 rounded-xl placeholder-zinc-500 focus:outline-none focus:border-cyan-500/60 focus:shadow-[0_0_0_3px_rgba(34,211,238,0.1)] transition-all duration-200 resize-none"
                       required
                     ></textarea>
@@ -515,7 +609,7 @@ function App() {
                     className="w-full font-semibold flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] active:scale-[0.98] cursor-pointer transition-all duration-300"
                   >
                     <i className="ri-send-plane-line text-base" />
-                    <ShinyText text="Send Message" disabled={false} speed={3} className="custom-class" />
+                    <ShinyText text={t("contact.formSend")} disabled={false} speed={3} className="custom-class" />
                   </button>
                 </div>
               </form>

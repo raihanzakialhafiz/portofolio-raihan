@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FiX, FiGithub, FiCalendar, FiUser, FiCode } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 const CATEGORY_STYLES = {
   'Web App':    'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -9,6 +10,7 @@ const CATEGORY_STYLES = {
 };
 
 const ProjectModal = ({ isOpen, onClose, project }) => {
+  const { t } = useTranslation();
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -126,7 +128,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             <div>
               <div className="flex items-center gap-2 mb-2 sm:mb-3">
                 <FiCode size={13} className="text-cyan-400" />
-                <h4 className="text-xs sm:text-sm font-semibold text-zinc-300">Tech Stack</h4>
+                <h4 className="text-xs sm:text-sm font-semibold text-zinc-300">{t("projects.techStack")}</h4>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {project.techStack.map((tech, i) => (
@@ -142,16 +144,23 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           )}
 
           {/* CTA */}
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-auto inline-flex items-center justify-center gap-2 font-semibold text-white rounded-2xl p-3 sm:p-3.5 w-full transition-all duration-300 hover:-translate-y-0.5 text-sm"
-            style={{ background: 'linear-gradient(135deg, #0891b2, #7c3aed)', boxShadow: '0 8px 24px rgba(124,58,237,0.3)' }}
-          >
-            <FiGithub size={16} />
-            <span>Lihat Source Code</span>
-          </a>
+          {project.url ? (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-auto inline-flex items-center justify-center gap-2 font-semibold text-white rounded-2xl p-3 sm:p-3.5 w-full transition-all duration-300 hover:-translate-y-0.5 text-sm"
+              style={{ background: 'linear-gradient(135deg, #0891b2, #7c3aed)', boxShadow: '0 8px 24px rgba(124,58,237,0.3)' }}
+            >
+              <FiGithub size={16} />
+              <span>{t("projects.viewSource")}</span>
+            </a>
+          ) : (
+            <div className="mt-auto inline-flex items-center justify-center gap-2 font-semibold rounded-2xl p-3 sm:p-3.5 w-full text-sm text-zinc-600 border border-zinc-800 bg-zinc-900/50 cursor-not-allowed select-none">
+              <FiGithub size={16} />
+              <span>{t("projects.sourceUnavailable")}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

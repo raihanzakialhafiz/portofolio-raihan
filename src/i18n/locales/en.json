@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "certs": "Certificates",
+    "projects": "Projects",
+    "contact": "Contact",
+    "cta": "Get in Touch",
+    "toggleMenu": "Toggle menu",
+    "switchLanguage": "Switch language"
+  },
+  "hero": {
+    "quote": "Code with passion, build with purpose",
+    "greeting": "Hi I'm Raihan Zaki Alhafiz",
+    "blurb": "A Full Stack Web Developer focused on building modern web apps using Laravel, Vue.js, and React — from interactive UIs to RESTful APIs and database integration.",
+    "downloadCv": "Download CV",
+    "exploreProjects": "Explore My Projects",
+    "avatarAlt": "Raihan Zaki Alhafiz",
+    "profileTitle": "Full Stack Developer",
+    "profileStatus": "Online",
+    "profileContact": "Contact Me"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "I'm Raihan Zaki Alhafiz, a Full Stack Web Developer with an Informatics Engineering background from Sebelas Maret University. I have experience developing modern and responsive web applications using Laravel, Vue.js, and React — skilled in both front-end and back-end development, including RESTful APIs, authentication systems, and database integration. Committed to delivering scalable and high-quality web solutions.",
+    "projectsFinished": "Projects Finished",
+    "yearsExperience": "Years of Experience",
+    "gpa": "GPA",
+    "motto": "Working with heart, creating with mind."
+  },
+  "tools": {
+    "title": "Tools & Technologies",
+    "subtitle": "Technologies I use to build modern web experiences"
+  },
+  "experience": {
+    "title": "Experience & Education",
+    "subtitle": "My journey so far",
+    "filter": {
+      "all": "All",
+      "work": "Work",
+      "education": "Education",
+      "organization": "Organization"
+    }
+  },
+  "certs": {
+    "title": "Certificates & Awards",
+    "subtitle": "Continuous learning and recognition",
+    "count_one": "{{count}} certificate",
+    "count_other": "{{count}} certificates",
+    "viewDocument": "View Document",
+    "noLink": "No link yet",
+    "detail": "Detail",
+    "verified": "Verified",
+    "viewOnDrive": "View Document on Google Drive",
+    "driveUnavailable": "Google Drive link not available",
+    "noImage": "No certificate image yet."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Showcasing a selection of projects that reflect my skills, creativity, and passion for building meaningful digital experiences.",
+    "techStack": "Tech Stack",
+    "viewSource": "View Source Code",
+    "sourceUnavailable": "Source code not available"
+  },
+  "contact": {
+    "title": "Contact & Chat",
+    "subtitle": "Get in touch with me or chat in real-time",
+    "connectTitle": "Let's Connect",
+    "connectSubtitle": "Pick whichever channel suits you best — I'll get back to you as soon as I can.",
+    "openToWork": "Open to new opportunities",
+    "whatsappValue": "Chat directly — quick reply",
+    "whatsappText": "Hi Raihan, I came across your portfolio and would like to discuss something.",
+    "emailSubject": "Collaboration via Portfolio",
+    "formName": "Full Name",
+    "formNamePlaceholder": "Your full name...",
+    "formEmail": "Email",
+    "formEmailPlaceholder": "your@email.com",
+    "formMessage": "Message",
+    "formMessagePlaceholder": "What would you like to discuss?",
+    "formSend": "Send Message",
+    "formSubject": "New message from Portfolio"
+  },
+  "footer": {
+    "copyright": "© {{year}} Raihan Zaki Alhafiz. Built with React & Tailwind CSS.",
+    "home": "Home",
+    "about": "About Me",
+    "project": "Project"
+  }
+}

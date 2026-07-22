@@ -1,12 +1,14 @@
 import "remixicon/fonts/remixicon.css";
 import Dock from "./Dock/Dock";
 import { VscHome, VscArchive, VscAccount } from "react-icons/vsc";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   const items = [
-    { icon: <VscHome size={18} />, label: "Home", onClick: () => document.getElementById("home")?.scrollIntoView({ behavior: "smooth" }) },
-    { icon: <VscAccount size={18} />, label: "About Me", onClick: () => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }) },
-    { icon: <VscArchive size={18} />, label: "Project", onClick: () => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <VscHome size={18} />, label: t("footer.home"), onClick: () => document.getElementById("home")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <VscAccount size={18} />, label: t("footer.about"), onClick: () => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <VscArchive size={18} />, label: t("footer.project"), onClick: () => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" }) },
   ];
 
   return (
@@ -61,7 +63,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <p className="mt-6 text-xs text-zinc-600 text-center">
-        © {new Date().getFullYear()} Raihan Zaki Alhafiz. Built with React &amp; Tailwind CSS.
+        {t("footer.copyright", { year: new Date().getFullYear() })}
       </p>
     </div>
   );

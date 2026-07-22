@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import './i18n' // inisialisasi i18next sebelum komponen dirender
 import './index.css'
 import App from './App.jsx'
 import Navbar from './components/Navbar.jsx'

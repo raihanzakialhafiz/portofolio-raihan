@@ -6,4 +6,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: "/portofolio-raihan/",
   plugins: [react(), tailwindcss()],
+  // Catatan: Lanyard di-import via React.lazy sehingga three.js/rapier otomatis
+  // masuk chunk async terpisah (di-load on-demand, bukan di-preload saat awal).
 })

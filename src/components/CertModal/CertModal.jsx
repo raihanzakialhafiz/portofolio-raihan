@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { FiX } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const CertModal = ({ cert, onClose }) => {
+  const { t } = useTranslation();
   const [imgError, setImgError] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -68,13 +70,7 @@ const CertModal = ({ cert, onClose }) => {
                 <i className={cert.icon} />
               </div>
               <p className="text-zinc-500 text-xs text-center leading-relaxed">
-                Belum ada gambar sertifikat.&nbsp;
-                <span className="text-zinc-600">
-                  Tambahkan file ke{" "}
-                  <code className="text-cyan-500 bg-zinc-800 px-1 rounded">
-                    public/assets/certs/
-                  </code>
-                </span>
+                {t("certs.noImage")}
               </p>
             </div>
           )}
@@ -116,7 +112,7 @@ const CertModal = ({ cert, onClose }) => {
             </span>
             <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
               <i className="ri-verified-badge-line" />
-              Terverifikasi
+              {t("certs.verified")}
             </span>
           </div>
 
@@ -135,22 +131,14 @@ const CertModal = ({ cert, onClose }) => {
                 }}
               >
                 <i className="ri-drive-line text-base" />
-                Lihat Dokumen di Google Drive
+                {t("certs.viewOnDrive")}
               </a>
             ) : (
               /* Disabled state */
               <div className="flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-sm text-zinc-600 w-full border border-zinc-800 bg-zinc-900/50 cursor-not-allowed select-none">
                 <i className="ri-drive-line text-base" />
-                Link Google Drive belum tersedia
+                {t("certs.driveUnavailable")}
               </div>
-            )}
-
-            {/* Tambahkan link hint */}
-            {!cert.driveUrl && (
-              <p className="text-[10px] text-zinc-600 text-center leading-relaxed">
-                Tambahkan <code className="text-cyan-600 bg-zinc-900 px-1 rounded">driveUrl</code> pada{" "}
-                <code className="text-cyan-600 bg-zinc-900 px-1 rounded">data.js</code> untuk mengaktifkan tombol ini.
-              </p>
             )}
           </div>
 
