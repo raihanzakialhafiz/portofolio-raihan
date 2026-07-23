@@ -20,22 +20,22 @@ import { SiLaravel, SiVuedotjs, SiFlutter } from "react-icons/si";
 // Field berupa nama diri (nama institusi, judul sertifikat) tetap string biasa.
 
 export const listTools = [
-  { id: 1, gambar: Tools1, nama: "HTML", ket: { en: "Markup Language", id: "Bahasa Markup" }, dad: "100" },
-  { id: 2, gambar: Tools2, nama: "CSS", ket: { en: "Styling Language", id: "Bahasa Styling" }, dad: "200" },
-  { id: 3, gambar: Tools3, nama: "JavaScript", ket: { en: "Language", id: "Bahasa Pemrograman" }, dad: "300" },
-  { id: 4, gambar: Tools4, nama: "PHP", ket: { en: "Language", id: "Bahasa Pemrograman" }, dad: "400" },
-  { id: 5, Icon: SiLaravel, color: "#FF2D20", nama: "Laravel", ket: { en: "PHP Framework", id: "Framework PHP" }, dad: "500" },
-  { id: 6, gambar: Tools5, nama: "MySQL", ket: { en: "Database", id: "Basis Data" }, dad: "600" },
-  { id: 7, gambar: Tools6, nama: "React JS", ket: { en: "Framework", id: "Framework" }, dad: "700" },
-  { id: 8, Icon: SiVuedotjs, color: "#42B883", nama: "Vue.js", ket: { en: "Framework", id: "Framework" }, dad: "800" },
-  { id: 9, gambar: Tools7, nama: "Tailwind CSS", ket: { en: "CSS Framework", id: "Framework CSS" }, dad: "900" },
-  { id: 10, gambar: Tools8, nama: "Bootstrap", ket: { en: "CSS Framework", id: "Framework CSS" }, dad: "1000" },
-  { id: 11, gambar: Tools9, nama: "Node JS", ket: { en: "JavaScript Runtime", id: "Runtime JavaScript" }, dad: "1100" },
-  { id: 12, Icon: SiFlutter, color: "#02569B", nama: "Flutter", ket: { en: "Mobile Framework", id: "Framework Mobile" }, dad: "1200" },
-  { id: 13, gambar: Tools10, nama: "GitHub", ket: { en: "Version Control", id: "Kontrol Versi" }, dad: "1300" },
-  { id: 14, gambar: Tools11, nama: "VS Code", ket: { en: "Code Editor", id: "Editor Kode" }, dad: "1400" },
-  { id: 15, gambar: Tools12, nama: "Firebase", ket: { en: "Backend Service", id: "Layanan Backend" }, dad: "1500" },
-  { id: 16, gambar: Tools13, nama: "Vite", ket: { en: "Build Tool", id: "Build Tool" }, dad: "1600" },
+  { id: 1, image: Tools1, name: "HTML", label: { en: "Markup Language", id: "Bahasa Markup" }, delay: "100" },
+  { id: 2, image: Tools2, name: "CSS", label: { en: "Styling Language", id: "Bahasa Styling" }, delay: "200" },
+  { id: 3, image: Tools3, name: "JavaScript", label: { en: "Language", id: "Bahasa Pemrograman" }, delay: "300" },
+  { id: 4, image: Tools4, name: "PHP", label: { en: "Language", id: "Bahasa Pemrograman" }, delay: "400" },
+  { id: 5, Icon: SiLaravel, color: "#FF2D20", name: "Laravel", label: { en: "PHP Framework", id: "Framework PHP" }, delay: "500" },
+  { id: 6, image: Tools5, name: "MySQL", label: { en: "Database", id: "Basis Data" }, delay: "600" },
+  { id: 7, image: Tools6, name: "React JS", label: { en: "Framework", id: "Framework" }, delay: "700" },
+  { id: 8, Icon: SiVuedotjs, color: "#42B883", name: "Vue.js", label: { en: "Framework", id: "Framework" }, delay: "800" },
+  { id: 9, image: Tools7, name: "Tailwind CSS", label: { en: "CSS Framework", id: "Framework CSS" }, delay: "900" },
+  { id: 10, image: Tools8, name: "Bootstrap", label: { en: "CSS Framework", id: "Framework CSS" }, delay: "1000" },
+  { id: 11, image: Tools9, name: "Node JS", label: { en: "JavaScript Runtime", id: "Runtime JavaScript" }, delay: "1100" },
+  { id: 12, Icon: SiFlutter, color: "#02569B", name: "Flutter", label: { en: "Mobile Framework", id: "Framework Mobile" }, delay: "1200" },
+  { id: 13, image: Tools10, name: "GitHub", label: { en: "Version Control", id: "Kontrol Versi" }, delay: "1300" },
+  { id: 14, image: Tools11, name: "VS Code", label: { en: "Code Editor", id: "Editor Kode" }, delay: "1400" },
+  { id: 15, image: Tools12, name: "Firebase", label: { en: "Backend Service", id: "Layanan Backend" }, delay: "1500" },
+  { id: 16, image: Tools13, name: "Vite", label: { en: "Build Tool", id: "Build Tool" }, delay: "1600" },
 ];
 
 // type: "work" | "education" | "organization"
@@ -279,7 +279,7 @@ export const listCerts = [
 const projectImg = (file) =>
   `${import.meta.env.BASE_URL}assets/project/${encodeURIComponent(file)}`;
 
-export const listProyek = [
+export const listProjects = [
   {
     id: 1,
     image: projectImg("Booking Appointment System.jpeg"),
@@ -299,7 +299,7 @@ export const listProyek = [
     borderColor: "#3B82F6",
     gradient: "linear-gradient(145deg, #3B82F6, #000)",
     url: "https://github.com/rhzarzky/ta-booking-apps",
-    dad: "100",
+    delay: "100",
   },
   {
     id: 2,
@@ -320,7 +320,7 @@ export const listProyek = [
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
     url: "https://github.com/raihanzaki03/Makepetantuma",
-    dad: "200",
+    delay: "200",
   },
   {
     id: 3,
@@ -340,7 +340,7 @@ export const listProyek = [
     borderColor: "#3B82F6",
     gradient: "linear-gradient(145deg, #3B82F6, #000)",
     url: "https://github.com/raihanzakialhafiz/jadwal-atip",
-    dad: "300",
+    delay: "300",
   },
   {
     id: 4,
@@ -360,7 +360,7 @@ export const listProyek = [
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
     url: "https://github.com/raihanzakialhafiz/sitem-perjanjian-kinerja",
-    dad: "400",
+    delay: "400",
   },
   {
     id: 5,
@@ -379,7 +379,7 @@ export const listProyek = [
     borderColor: "#3B82F6",
     gradient: "linear-gradient(145deg, #3B82F6, #000)",
     url: "https://github.com/raihanzakialhafiz/inventaris",
-    dad: "500",
+    delay: "500",
   },
   {
     id: 6,
@@ -398,6 +398,6 @@ export const listProyek = [
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
     url: "https://github.com/raihanzakialhafiz/portofolio-raihan",
-    dad: "600",
+    delay: "600",
   },
 ];
