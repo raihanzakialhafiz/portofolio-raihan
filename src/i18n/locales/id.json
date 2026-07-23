@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "title": "Raihan Zaki Alhafiz — Full Stack Developer",
+    "description": "Portofolio Raihan Zaki Alhafiz — Full Stack Web Developer (Laravel, Vue.js, React). Proyek, pengalaman, dan sertifikasi."
+  },
   "nav": {
     "home": "Beranda",
     "about": "Tentang",

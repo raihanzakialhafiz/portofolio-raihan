@@ -25,12 +25,18 @@ i18n
     },
   });
 
-// Jaga atribut lang pada <html> tetap sinkron (penting untuk aksesibilitas & SEO)
-const syncHtmlLang = (lng) => {
+// Jaga atribut lang, <title>, dan meta description tetap sinkron dengan bahasa aktif.
+// Catatan: crawler membaca HTML awal (berbahasa Inggris) — pembaruan ini untuk
+// pengunjung yang mengganti bahasa, bukan pengganti SEO multi-halaman.
+const syncDocumentMeta = (lng) => {
   document.documentElement.setAttribute("lang", lng);
+  document.title = i18n.t("meta.title");
+  document
+    .querySelector('meta[name="description"]')
+    ?.setAttribute("content", i18n.t("meta.description"));
 };
-syncHtmlLang(i18n.resolvedLanguage);
-i18n.on("languageChanged", syncHtmlLang);
+syncDocumentMeta(i18n.resolvedLanguage);
+i18n.on("languageChanged", syncDocumentMeta);
 
 export default i18n;
 
