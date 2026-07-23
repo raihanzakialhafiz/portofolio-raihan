@@ -1,0 +1,58 @@
+[
+  {
+    "date": "2026-07-23",
+    "scope": "section",
+    "macrostructure": "Edge-anchored loader",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "enrichment": "none",
+    "brief": "Loading screen — wordmark + hairline sweep, mengganti counter 0-100 terpusat"
+  },
+  {
+    "date": "2026-07-23",
+    "scope": "section",
+    "macrostructure": "Spec sheet",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "enrichment": "none",
+    "brief": "Certificates — daftar berkolom, semua entri setara (iterasi ke-4)"
+  },
+  {
+    "date": "2026-07-23",
+    "scope": "section",
+    "macrostructure": "Featured + registry",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "enrichment": "none",
+    "brief": "Certificates — kartu unggulan + registri (DITOLAK: hierarki tak diinginkan)"
+  },
+  {
+    "date": "2026-07-23",
+    "scope": "section",
+    "macrostructure": "Accordion by issuer",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "enrichment": "none",
+    "brief": "Certificates — grup penerbit (DITOLAK: butuh klik ekstra)"
+  },
+  {
+    "date": "2026-07-23",
+    "scope": "section",
+    "macrostructure": "Vertical timeline",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "enrichment": "none",
+    "brief": "Experience — timeline rail + see-more, mengganti grid 9 kartu"
+  },
+  {
+    "date": "2026-07-23",
+    "scope": "app",
+    "macrostructure": "Long Scroll Portfolio",
+    "theme": "custom",
+    "theme_axes": "dark paper / grotesk-sans / cool accent",
+    "nav": "N10 scroll-morph pill",
+    "footer": "Ft2 inline + dock",
+    "enrichment": "Lanyard 3D (R3F) + Backdrop gradien/grain",
+    "brief": "Portofolio Raihan Zaki Alhafiz — perbaikan menyeluruh dari audit Hallmark"
+  }
+]

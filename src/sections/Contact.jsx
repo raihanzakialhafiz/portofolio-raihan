@@ -4,6 +4,9 @@ import { aosProps } from "../lib/aos";
 
 const SITE_URL = "https://raihanzakialhafiz.github.io/portofolio-raihan/";
 
+// Transparansi yang bekerja untuk nilai token maupun warna literal.
+const alpha = (color, pct) => `color-mix(in srgb, ${color} ${pct}%, transparent)`;
+
 // Kanal kontak langsung — murni tautan, tanpa backend/database.
 const buildContacts = (t) => [
   {
@@ -11,28 +14,28 @@ const buildContacts = (t) => [
     value: t("contact.whatsappValue"),
     href: `https://wa.me/6281277751127?text=${encodeURIComponent(t("contact.whatsappText"))}`,
     icon: "ri-whatsapp-line",
-    color: "#25D366",
+    color: "var(--brand-whatsapp)",
   },
   {
     label: "Email",
     value: "raihanzaki121203@gmail.com",
     href: `mailto:raihanzaki121203@gmail.com?subject=${encodeURIComponent(t("contact.emailSubject"))}`,
     icon: "ri-mail-line",
-    color: "#22d3ee",
+    color: "var(--color-accent)",
   },
   {
     label: "LinkedIn",
     value: "in/raihanzaki12",
     href: "https://www.linkedin.com/in/raihanzaki12/",
     icon: "ri-linkedin-fill",
-    color: "#0A66C2",
+    color: "var(--brand-linkedin)",
   },
   {
     label: "GitHub",
     value: "@raihanzaki03",
     href: "https://github.com/raihanzaki03",
     icon: "ri-github-fill",
-    color: "#a1a1aa",
+    color: "var(--brand-github)",
   },
 ];
 
@@ -63,7 +66,7 @@ const Contact = () => {
         >
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse at top, rgba(34,211,238,0.05) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(ellipse at top, var(--color-accent-wash) 0%, transparent 70%)" }}
           />
 
           <div className="z-10">
@@ -80,11 +83,17 @@ const Contact = () => {
                 target={c.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel="noopener noreferrer"
                 className="group/link flex items-center gap-3 p-3 rounded-xl border border-zinc-700/60 bg-zinc-800/40 hover:bg-zinc-800/80 transition-[color,background-color,border-color] duration-300"
-                style={{ borderColor: `${c.color}33` }}
+                // color-mix, bukan sambungan alpha heksadesimal: nilainya kini
+                // token var(--…), sehingga `${c.color}33` menghasilkan CSS tak sah.
+                style={{ borderColor: alpha(c.color, 20) }}
               >
                 <span
                   className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-lg"
-                  style={{ background: `${c.color}1a`, color: c.color, border: `1px solid ${c.color}40` }}
+                  style={{
+                    background: alpha(c.color, 10),
+                    color: c.color,
+                    border: `1px solid ${alpha(c.color, 25)}`,
+                  }}
                 >
                   <i className={c.icon} />
                 </span>

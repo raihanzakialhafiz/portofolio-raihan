@@ -21,8 +21,8 @@ const ProjectModal = ({ isOpen, onClose, project, onPrev, onNext, position }) =>
   }, [onClose]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-    return () => { document.body.style.overflow = 'auto'; };
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
   useEffect(() => {

@@ -1,59 +1,64 @@
-import Backdrop from "./Backdrop/Backdrop"
-import { useState, useEffect } from "react"
-import CountUp from "./CountUp/CountUp"
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import Backdrop from "./Backdrop/Backdrop";
+
+// Urutan keluar: konten terangkat & memudar → layar memudar → unmount.
+const LIFT_AT = 1200;
+const FADE_AT = 1600;
+const HIDE_AT = 2600;
 
 const PreLoader = () => {
-  const [loading, setLoading] = useState(true)
-  const [countDone, setCountDone] = useState(false)
-  const [fadeText, setFadeText] = useState(false)
-  const [fadeScreen, setFadeScreen] = useState(false)
+  const { t } = useTranslation();
+  const [visible, setVisible] = useState(true);
+  const [lifted, setLifted] = useState(false);
+  const [faded, setFaded] = useState(false);
 
   useEffect(() => {
-    if (countDone) {
-      // Urutan: teks naik & memudar dulu → layar memudar → baru unmount
-      // 1) Fade teks
-      const fadeTextTimer = setTimeout(() => setFadeText(true), 500)
+    const timers = [
+      setTimeout(() => setLifted(true), LIFT_AT),
+      setTimeout(() => setFaded(true), FADE_AT),
+      setTimeout(() => setVisible(false), HIDE_AT),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
-      // 2) Fade seluruh screen (transisi opacity 1000ms)
-      const fadeScreenTimer = setTimeout(() => setFadeScreen(true), 1500)
-
-      // 3) Unmount preloader setelah animasi fade layar selesai
-      const hideTimer = setTimeout(() => setLoading(false), 2500)
-
-      return () => {
-        clearTimeout(fadeTextTimer)
-        clearTimeout(fadeScreenTimer)
-        clearTimeout(hideTimer)
-      }
-    }
-  }, [countDone])
+  if (!visible) return null;
 
   return (
-    loading && (
-      <div
-        className={`w-full h-dvh fixed inset-0 flex items-center justify-center bg-[var(--color-ink)] z-[var(--z-overlay)] overflow-hidden transition-opacity duration-1000 ${
-          fadeScreen ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <Backdrop />
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label={t("hero.greeting")}
+      className={`fixed inset-0 w-full h-dvh bg-[var(--color-ink)] z-[var(--z-overlay)] overflow-hidden transition-opacity duration-1000 ${
+        faded ? "opacity-0" : "opacity-100"
+      }`}
+    >
+      <Backdrop />
+
+      {/* Berlabuh di tepi bawah — ruang kosong di atasnya adalah bagian desain,
+          bukan kekosongan yang perlu diisi. */}
+      <div className="absolute inset-x-0 bottom-0 px-6 sm:px-10 pb-10 sm:pb-14">
         <div
-          className={`absolute text-white text-6xl font-bold transition-[opacity,transform] duration-1000 ${
-            fadeText ? "opacity-0 -translate-y-10" : "opacity-100 translate-y-0"
+          className={`mx-auto max-w-7xl transition-[opacity,transform] duration-700 ease-out ${
+            lifted ? "opacity-0 -translate-y-4" : "opacity-100 translate-y-0"
           }`}
         >
-          <CountUp
-            from={0}
-            to={100}
-            separator=","
-            direction="up"
-            duration={1}
-            className="count-up-text"
-            onEnd={() => setCountDone(true)}
-          />
+          {/* Wordmark identik dengan navbar — kesinambungan merek sejak detik nol */}
+          <p className="font-display text-2xl sm:text-3xl font-bold text-white select-none">
+            Raihan<span className="text-cyan-400">.</span>
+          </p>
+
+          <p className="mt-1 text-sm text-zinc-500">{t("hero.profileTitle")}</p>
+
+          {/* Hairline + segmen aksen menyapu. Memakai gradien yang sama dengan
+              rule pembuka tiap section, jadi bahasanya konsisten. */}
+          <div className="mt-6 h-px w-full overflow-hidden bg-zinc-800">
+            <span className="preloader-sweep block h-px w-1/4 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500" />
+          </div>
         </div>
       </div>
-    )
-  )
-}
+    </div>
+  );
+};
 
-export default PreLoader
+export default PreLoader;

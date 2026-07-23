@@ -14,7 +14,7 @@ const CertModal = ({ cert, onClose, onPrev, onNext, position }) => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = "auto"; };
+    return () => { document.body.style.overflow = ""; };
   }, []);
 
   // Gambar & status error direset saat pindah sertifikat lewat prev/next.

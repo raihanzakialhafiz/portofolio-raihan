@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Hallmark · macrostructure: Long Scroll Portfolio · genre: modern-minimal
+ * nav: N10 scroll-morph pill · footer: Ft2 inline single-line + dock
+ * theme: custom (paper oklch(13% 0.006 220) · accent oklch(78% 0.14 195) cool
+ *        · display Space Grotesk + body Poppins)
+ * axes: dark paper / grotesk-sans display / cool accent
+ * sections: Hero(split diptych) · About · Tools · Experience(timeline)
+ *           · Certificates(spec sheet) · Projects · Contact
+ */
+
 /* ─────────────────────────────────────────────────────────────
    Design tokens
    Sumber tunggal untuk warna, tipografi, z-index, dan easing.
@@ -20,6 +29,14 @@
   --color-field: oklch(21% 0.021 260);
   --color-field-ink: oklch(96% 0.002 260);
   --color-field-muted: oklch(58% 0.012 260);
+  /* Aksen dengan alpha rendah untuk sapuan latar kartu */
+  --color-accent-wash: oklch(78% 0.14 195 / 0.05);
+
+  /* Warna merek pihak ketiga — nilainya milik mereka, tidak boleh disesuaikan
+     ke palet kita. Dijadikan token agar tidak berserak sebagai hex mentah. */
+  --brand-whatsapp: #25d366;
+  --brand-linkedin: #0a66c2;
+  --brand-github: oklch(72% 0.006 260);
 
   /* Skala z-index bernama — menggantikan angka arbitrer seperti 10000. */
   --z-base: 0;
@@ -36,7 +53,39 @@
   --dur-mid: 240ms;
 }
 
+/* Layar-muat: segmen aksen menyapu sepanjang hairline.
+   Indeterminate — jujur bahwa progres sesungguhnya tidak diukur. */
+@keyframes preloader-sweep {
+  0% {
+    transform: translateX(-105%);
+  }
+  100% {
+    transform: translateX(420%);
+  }
+}
+
+.preloader-sweep {
+  animation: preloader-sweep 1150ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Tanpa gerak: rule terisi penuh dan diam, bukan berkedip */
+  .preloader-sweep {
+    animation: none;
+    transform: none;
+    width: 100%;
+    opacity: 0.45;
+  }
+}
+
 @layer base {
+  /* Jaring pengaman overflow horizontal. `clip`, bukan `hidden` — `hidden`
+     membuat position:sticky berhenti bekerja pada leluhur mana pun. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     font-family: var(--font-body);
   }
