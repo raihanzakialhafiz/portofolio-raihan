@@ -1,97 +1,117 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CertModal from "../components/CertModal/CertModal";
+import ShowMore from "../components/ShowMore";
 import { listCerts } from "../data";
 import { aosProps } from "../lib/aos";
 
+// Baris yang tampil sebelum "tampilkan lainnya".
+const INITIAL = 6;
+
+// Grid dipakai ulang oleh header kolom dan tiap baris supaya kolomnya sejajar.
+const ROW_GRID =
+  "grid grid-cols-[1fr_auto] sm:grid-cols-[1.6rem_1fr_10rem_4rem_1.5rem] items-center gap-x-3 sm:gap-x-4";
+
 const Certificates = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const visible = expanded ? listCerts : listCerts.slice(0, INITIAL);
+  const remaining = listCerts.length - visible.length;
+
+  const selectedIndex = listCerts.findIndex((c) => c.id === selectedId);
+  const selected = selectedIndex >= 0 ? listCerts[selectedIndex] : null;
+  const step = (dir) => {
+    const next = (selectedIndex + dir + listCerts.length) % listCerts.length;
+    setSelectedId(listCerts[next].id);
+  };
 
   return (
-    <div className="mt-24 sm:mt-32" id="certs">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8" {...aosProps()}>
+    <div className="mt-20 sm:mt-28" id="certs">
+      <div
+        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8"
+        {...aosProps()}
+      >
         <div>
           <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-amber-400 to-violet-500 mb-3" />
-          <h2 className="text-3xl sm:text-4xl font-bold mb-1 leading-snug">{t("certs.title")}</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-1 leading-snug">
+            {t("certs.title")}
+          </h2>
           <p className="text-sm sm:text-base text-zinc-500">{t("certs.subtitle")}</p>
         </div>
-        <span className="self-start sm:self-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400">
+        <span className="self-start sm:self-auto text-xs font-semibold px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400 tabular-nums">
           {t("certs.count", { count: listCerts.length })}
         </span>
       </div>
 
-      {/* 2 kolom di mobile, 3 di desktop */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {listCerts.map((cert) => (
-          <div
-            key={cert.id}
-            onClick={() => setSelected(cert)}
-            className="relative flex flex-col p-3 sm:p-4 border border-zinc-700/50 rounded-2xl bg-zinc-900/60 backdrop-blur-sm cursor-pointer overflow-hidden hover:border-zinc-500 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 group"
-            {...aosProps({ delay: cert.delay, duration: 800 })}
-          >
-            <div
-              className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl"
-              style={{ background: `linear-gradient(90deg, ${cert.colorFrom}, ${cert.colorTo})` }}
-            />
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-              style={{ background: `radial-gradient(ellipse at top, ${cert.colorFrom}14, transparent 65%)` }}
-            />
+      {/* Spec sheet — semua kredensial berbobot sama, dibaca seperti daftar resmi.
+          Header kolom memberi konteks tanpa perlu mengulang label di tiap baris. */}
+      <div {...aosProps({ delay: 150 })}>
+        <div
+          className={`${ROW_GRID} hidden sm:grid px-3 pb-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-600`}
+        >
+          <span aria-hidden="true" />
+          <span>{t("certs.colCredential")}</span>
+          <span>{t("certs.colIssuer")}</span>
+          <span className="text-right">{t("certs.colYear")}</span>
+          <span aria-hidden="true" />
+        </div>
 
-            <div className="flex items-start justify-between mb-2.5 z-10">
-              <div
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-base sm:text-lg text-white shadow-md shrink-0"
-                style={{ background: `linear-gradient(135deg, ${cert.colorFrom}, ${cert.colorTo})` }}
+        <ul className="divide-y divide-zinc-800/80 border-y border-zinc-800/80">
+          {visible.map((cert) => (
+            <li key={cert.id}>
+              <button
+                type="button"
+                onClick={() => setSelectedId(cert.id)}
+                aria-label={`${cert.title} — ${cert.issuer}, ${cert.year}`}
+                className={`${ROW_GRID} group/row w-full px-3 py-4 text-left cursor-pointer hover:bg-zinc-900/50 transition-colors duration-150`}
               >
-                <i className={cert.icon} />
-              </div>
-              <span
-                className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shrink-0"
-                style={{
-                  color: cert.colorFrom,
-                  border: `1px solid ${cert.colorFrom}45`,
-                  background: `${cert.colorFrom}15`,
-                }}
-              >
-                {cert.year}
-              </span>
-            </div>
+                <i
+                  className={`${cert.icon} text-base row-start-1 hidden sm:block`}
+                  style={{ color: cert.colorFrom }}
+                />
 
-            <div className="z-10 flex-1 min-w-0">
-              <h4 className="font-bold text-xs sm:text-sm leading-snug mb-1 group-hover:text-white transition-colors line-clamp-2">
-                {cert.title}
-              </h4>
-              <p className="text-[10px] sm:text-xs text-zinc-500 truncate">{cert.issuer}</p>
-            </div>
-
-            <div className="mt-2.5 pt-2.5 border-t border-zinc-700/50 z-10 flex items-center justify-between">
-              {cert.driveUrl ? (
-                <a
-                  href={cert.driveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
-                >
-                  <i className="ri-drive-line text-sm" />
-                  <span>{t("certs.viewDocument")}</span>
-                </a>
-              ) : (
-                <span className="text-[10px] sm:text-xs text-zinc-600 group-hover:text-zinc-500 transition-colors flex items-center gap-1">
-                  <i className="ri-link text-xs" />
-                  {t("certs.noLink")}
+                <span className="min-w-0">
+                  <span className="block text-sm text-zinc-200 group-hover/row:text-white transition-colors truncate">
+                    {cert.title}
+                  </span>
+                  {/* Penerbit ikut baris judul di mobile, karena kolomnya disembunyikan */}
+                  <span className="sm:hidden block text-xs text-zinc-500 mt-0.5 truncate">
+                    {cert.issuer}
+                  </span>
                 </span>
-              )}
-              <span className="text-[10px] sm:text-xs text-zinc-600 group-hover:text-zinc-400 transition-colors flex items-center gap-1">
-                <i className="ri-eye-line" /> {t("certs.detail")}
-              </span>
-            </div>
-          </div>
-        ))}
+
+                <span className="hidden sm:block text-xs text-zinc-500 truncate">
+                  {cert.issuer}
+                </span>
+
+                <span className="text-xs text-zinc-500 tabular-nums text-right shrink-0">
+                  {cert.year}
+                </span>
+
+                <i className="hidden sm:block ri-arrow-right-s-line text-zinc-700 group-hover/row:text-cyan-400 transition-colors" />
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {selected && <CertModal cert={selected} onClose={() => setSelected(null)} />}
+      <ShowMore
+        expanded={expanded}
+        remaining={remaining}
+        onToggle={() => setExpanded((v) => !v)}
+      />
+
+      {selected && (
+        <CertModal
+          cert={selected}
+          onClose={() => setSelectedId(null)}
+          onPrev={() => step(-1)}
+          onNext={() => step(1)}
+          position={`${selectedIndex + 1}/${listCerts.length}`}
+        />
+      )}
     </div>
   );
 };

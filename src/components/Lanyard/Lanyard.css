@@ -9,3 +9,9 @@
   transform: scale(1);
   transform-origin: center;
 }
+@media (max-width: 768px) {
+  /* Dekorasi tidak boleh mendominasi layar kecil */
+  .lanyard-wrapper {
+    height: 46vh;
+  }
+}

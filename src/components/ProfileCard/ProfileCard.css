@@ -299,31 +299,28 @@
   flex-direction: column;
 }
 
+/* Tinta solid — gradient-fill pada teks (background-clip: text) adalah
+   penanda AI paling cepat dikenali. Penekanan dibawa bobot & warna aksen.
+   Teks berada di atas foto, jadi keterbacaan dijaga text-shadow, bukan gradien. */
 .pc-details h3 {
   font-weight: 600;
   margin: 0;
   font-size: min(5svh, 3em);
-  margin: 0;
-  background-image: linear-gradient(to bottom, #fff, #6f6fbe);
-  background-size: 1em 1.5em;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .pc-details p {
   font-weight: 600;
   position: relative;
-  top: -12px;
+  top: -6px;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 15px;
+  letter-spacing: 0.02em;
   margin: 0 auto;
   width: min-content;
-  background-image: linear-gradient(to bottom, #fff, #4a4ac0);
-  background-size: 1em 1.5em;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #e8fbff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
 @keyframes glow-bg {
@@ -347,6 +344,14 @@
 }
 
 @media (max-width: 768px) {
+  /* Lebar .pc-card berasal dari tinggi x aspect-ratio, jadi lebih sempit dari
+     wrapper-nya — akibatnya kartu rata kiri dan glow meluber ke kanan.
+     Wrapper dibuat memeluk kartu lalu dipusatkan. */
+  .pc-card-wrapper {
+    width: fit-content;
+    margin-inline: auto;
+  }
+
   .pc-card {
     height: 70svh;
     max-height: 450px;

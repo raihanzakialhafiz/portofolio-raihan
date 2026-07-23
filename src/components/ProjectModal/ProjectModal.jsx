@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiX, FiGithub, FiCalendar, FiUser, FiCode } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 const CATEGORY_STYLES = {
@@ -9,7 +8,7 @@ const CATEGORY_STYLES = {
   'Full Stack': 'bg-violet-500/15 text-violet-400 border-violet-500/30',
 };
 
-const ProjectModal = ({ isOpen, onClose, project }) => {
+const ProjectModal = ({ isOpen, onClose, project, onPrev, onNext, position }) => {
   const { t } = useTranslation();
   const [isClosing, setIsClosing] = useState(false);
 
@@ -28,10 +27,14 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e) => { if (e.key === 'Escape') handleClose(); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') handleClose();
+      if (e.key === 'ArrowLeft') onPrev?.();
+      if (e.key === 'ArrowRight') onNext?.();
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [isOpen, handleClose]);
+  }, [isOpen, handleClose, onPrev, onNext]);
 
   if (!isOpen) return null;
 
@@ -73,10 +76,10 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           {/* Close button */}
           <button
             onClick={handleClose}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-[color,background-color,border-color,transform] hover:scale-110"
             style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
-            <FiX size={15} />
+            <i className="ri-close-line text-base" />
           </button>
 
           {/* Category badge */}
@@ -104,13 +107,13 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-2">
             {project.client && (
               <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400">
-                <FiUser size={13} className="text-cyan-400 flex-shrink-0" />
+                <i className="ri-user-3-line text-cyan-400 shrink-0" />
                 <span>{project.client}</span>
               </div>
             )}
             {project.duration && (
               <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400">
-                <FiCalendar size={13} className="text-cyan-400 flex-shrink-0" />
+                <i className="ri-calendar-line text-cyan-400 shrink-0" />
                 <span>{project.duration}</span>
               </div>
             )}
@@ -127,7 +130,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           {project.techStack?.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <FiCode size={13} className="text-cyan-400" />
+                <i className="ri-code-s-slash-line text-cyan-400" />
                 <h4 className="text-xs sm:text-sm font-semibold text-zinc-300">{t("projects.techStack")}</h4>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -149,16 +152,41 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-auto inline-flex items-center justify-center gap-2 font-semibold text-white rounded-2xl p-3 sm:p-3.5 w-full transition-all duration-300 hover:-translate-y-0.5 text-sm"
+              className="mt-auto inline-flex items-center justify-center gap-2 font-semibold text-white rounded-2xl p-3 sm:p-3.5 w-full transition-[color,background-color,border-color] duration-300 text-sm"
               style={{ background: 'linear-gradient(135deg, #0891b2, #7c3aed)', boxShadow: '0 8px 24px rgba(124,58,237,0.3)' }}
             >
-              <FiGithub size={16} />
+              <i className="ri-github-fill text-base" />
               <span>{t("projects.viewSource")}</span>
             </a>
           ) : (
             <div className="mt-auto inline-flex items-center justify-center gap-2 font-semibold rounded-2xl p-3 sm:p-3.5 w-full text-sm text-zinc-600 border border-zinc-800 bg-zinc-900/50 cursor-not-allowed select-none">
-              <FiGithub size={16} />
+              <i className="ri-github-fill text-base" />
               <span>{t("projects.sourceUnavailable")}</span>
+            </div>
+          )}
+
+          {/* Navigasi antar proyek — tak perlu tutup lalu cari lagi. ← → juga aktif. */}
+          {onPrev && onNext && (
+            <div className="flex items-center justify-between border-t border-zinc-800 pt-3">
+              <button
+                type="button"
+                onClick={onPrev}
+                aria-label={t("common.prev")}
+                className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-cyan-300 hover:bg-zinc-800/60 transition-colors cursor-pointer"
+              >
+                <i className="ri-arrow-left-s-line text-base" />
+                {t("common.prev")}
+              </button>
+              <span className="text-[11px] text-zinc-600 tabular-nums">{position}</span>
+              <button
+                type="button"
+                onClick={onNext}
+                aria-label={t("common.next")}
+                className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-cyan-300 hover:bg-zinc-800/60 transition-colors cursor-pointer"
+              >
+                {t("common.next")}
+                <i className="ri-arrow-right-s-line text-base" />
+              </button>
             </div>
           )}
         </div>

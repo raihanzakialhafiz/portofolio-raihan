@@ -30,7 +30,7 @@ const About = () => {
 
   return (
     <div
-      className="mt-10 sm:mt-15 mx-auto w-full max-w-[1600px] rounded-2xl sm:rounded-3xl border-[3px] sm:border-[5px] border-violet-500/40 shadow-[0_0_30px_rgba(168,85,247,0.4)] bg-gradient-to-br from-[#0a0a0a] via-[#111111] to-[#1a1a1a] p-4 sm:p-6"
+      className="mt-10 sm:mt-15 mx-auto w-full max-w-[1600px] rounded-2xl sm:rounded-3xl border border-zinc-700/50 bg-zinc-900/40 backdrop-blur-sm p-5 sm:p-8"
       id="about"
     >
       <div
@@ -38,7 +38,7 @@ const About = () => {
         {...aosProps()}
       >
         {/* Kolom kiri */}
-        <div className="basis-full md:basis-7/12 pr-0 md:pr-8 border-b md:border-b-0 md:border-r border-violet-500/30">
+        <div className="basis-full md:basis-7/12 pr-0 md:pr-8 border-b md:border-b-0 md:border-r border-zinc-700/50">
           <div className="flex-1 text-left">
             <div className="mb-4 sm:mb-5">
               <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 mb-3" />
@@ -48,25 +48,29 @@ const About = () => {
             <BlurText
               key={lang}
               text={t("about.description")}
-              delay={150}
+              delay={28}
               animateBy="words"
               direction="top"
               className="text-base md:text-lg leading-relaxed mb-10 text-gray-300"
             />
 
-            <div className="flex flex-col sm:flex-row items-center sm:justify-between text-center sm:text-left gap-y-6 sm:gap-y-0 mb-4 w-full">
+            <div className="grid grid-cols-3 gap-3 sm:flex sm:flex-row sm:items-center sm:justify-between text-left gap-y-6 sm:gap-y-0 mb-4 w-full">
               {STATS.map((stat, i) => (
                 <Fragment key={stat.labelKey}>
                   {i > 0 && <Divider />}
-                  <div className="flex flex-col items-center sm:items-start gap-1">
+                  <div className="flex flex-col items-start gap-1 min-w-0">
                     <div className={`flex items-center justify-center w-8 h-8 rounded-lg border mb-1 ${TONE[stat.tone]}`}>
                       <i className={`${stat.icon} text-sm`} />
                     </div>
-                    <h3 className="text-3xl md:text-4xl font-bold">
+                    {/* "3.80/4.00" meluber di kolom sempit saat 3-grid mobile,
+                        jadi ukurannya menyesuaikan lebar layar. */}
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums whitespace-nowrap">
                       {stat.value}
-                      <span className="text-violet-500">{stat.suffix}</span>
+                      <span className="text-violet-500 text-base sm:text-3xl md:text-4xl">
+                        {stat.suffix}
+                      </span>
                     </h3>
-                    <p className="text-sm text-zinc-400">{t(stat.labelKey)}</p>
+                    <p className="text-xs sm:text-sm text-zinc-400">{t(stat.labelKey)}</p>
                   </div>
                 </Fragment>
               ))}

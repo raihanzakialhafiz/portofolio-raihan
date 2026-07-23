@@ -1,14 +1,13 @@
 import "remixicon/fonts/remixicon.css";
 import Dock from "./Dock/Dock";
-import { VscHome, VscArchive, VscAccount } from "react-icons/vsc";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();
   const items = [
-    { icon: <VscHome size={18} />, label: t("footer.home"), onClick: () => document.getElementById("home")?.scrollIntoView({ behavior: "smooth" }) },
-    { icon: <VscAccount size={18} />, label: t("footer.about"), onClick: () => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }) },
-    { icon: <VscArchive size={18} />, label: t("footer.project"), onClick: () => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <i className="ri-home-4-line text-lg" />, label: t("footer.home"), onClick: () => document.getElementById("home")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <i className="ri-user-3-line text-lg" />, label: t("footer.about"), onClick: () => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }) },
+    { icon: <i className="ri-folder-2-line text-lg" />, label: t("footer.project"), onClick: () => document.getElementById("project")?.scrollIntoView({ behavior: "smooth" }) },
   ];
 
   return (
@@ -34,7 +33,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900/60 border border-zinc-700/50 text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800 hover:-translate-y-0.5 transition-all duration-300"
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900/60 border border-zinc-700/50 text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800 transition-[color,background-color,border-color] duration-300"
           >
             <i className="ri-github-fill text-xl"></i>
           </a>
@@ -43,7 +42,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900/60 border border-zinc-700/50 text-zinc-400 hover:text-[#0A66C2] hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 hover:-translate-y-0.5 transition-all duration-300"
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900/60 border border-zinc-700/50 text-zinc-400 hover:text-[#0A66C2] hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 transition-[color,background-color,border-color] duration-300"
           >
             <i className="ri-linkedin-fill text-xl"></i>
           </a>

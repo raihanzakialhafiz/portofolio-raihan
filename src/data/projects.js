@@ -116,8 +116,8 @@ export const listProjects = [
       id: "Portofolio interaktif dengan React, Vite, dan elemen 3D...",
     },
     fullDescription: {
-      en: "A personal portfolio website presenting profile, experience, certifications, and projects. Built with React and Vite, featuring an interactive interface: a tilt-effect profile card, a 3D lanyard card powered by Three.js (React Three Fiber) with physics simulation, a WebGL Aurora background, plus GSAP, Motion, and AOS animations. Optimized with code-splitting so 3D assets load only when needed, keeping initial load light.",
-      id: "Website portofolio pribadi yang menampilkan profil, pengalaman, sertifikasi, dan proyek. Dibangun dengan React dan Vite, dengan antarmuka interaktif: kartu profil dengan efek tilt, kartu lanyard 3D berbasis Three.js (React Three Fiber) dengan simulasi physics, latar Aurora berbasis WebGL, serta animasi GSAP, Motion, dan AOS. Dioptimalkan dengan code-splitting sehingga aset 3D hanya dimuat saat dibutuhkan, menjaga waktu muat awal tetap ringan.",
+      en: "A personal portfolio website presenting profile, experience, certifications, and projects. Built with React and Vite, featuring an interactive interface: a tilt-effect profile card, a 3D lanyard card powered by Three.js (React Three Fiber) with physics simulation, a layered gradient-and-grain backdrop, plus GSAP, Motion, and AOS animations. Optimized with code-splitting so 3D assets load only when needed, keeping initial load light.",
+      id: "Website portofolio pribadi yang menampilkan profil, pengalaman, sertifikasi, dan proyek. Dibangun dengan React dan Vite, dengan antarmuka interaktif: kartu profil dengan efek tilt, kartu lanyard 3D berbasis Three.js (React Three Fiber) dengan simulasi physics, latar gradien berlapis dengan grain halus, serta animasi GSAP, Motion, dan AOS. Dioptimalkan dengan code-splitting sehingga aset 3D hanya dimuat saat dibutuhkan, menjaga waktu muat awal tetap ringan.",
     },
     techStack: ["React", "Vite", "Tailwind CSS", "Three.js", "GSAP", "Motion"],
     category: "Web App",

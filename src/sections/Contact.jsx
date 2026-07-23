@@ -37,19 +37,21 @@ const buildContacts = (t) => [
 ];
 
 const FIELD_CLASS =
-  "w-full border border-zinc-700/60 px-4 py-3 rounded-xl placeholder-zinc-500 focus:outline-none focus:border-cyan-500/60 focus:shadow-[0_0_0_3px_rgba(34,211,238,0.1)] transition-all duration-200";
+  "w-full border border-zinc-700/60 px-4 py-3 rounded-xl placeholder-zinc-500 focus:outline-none focus:border-cyan-500/60 focus:shadow-[0_0_0_3px_rgba(34,211,238,0.1)] transition-[color,background-color,border-color] duration-200";
 
 const Contact = () => {
   const { t } = useTranslation();
   const contacts = buildContacts(t);
 
   return (
-    <div className="kontak mt-24 sm:mt-32" id="contact">
-      <div className="flex flex-col items-center" {...aosProps()}>
+    <div className="kontak mt-28 sm:mt-40" id="contact">
+      {/* Rata kiri — Projects tepat di atasnya sudah terpusat; dua section
+          terpusat berturut-turut membaca sebagai "centred everything". */}
+      <div {...aosProps()}>
         <div className="w-8 h-0.5 rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 mb-3" />
-        <h2 className="text-4xl mb-2 font-bold text-center">{t("contact.title")}</h2>
+        <h2 className="text-3xl sm:text-4xl mb-2 font-bold">{t("contact.title")}</h2>
       </div>
-      <p className="text-base/loose text-center mb-10 opacity-50" {...aosProps({ delay: 300 })}>
+      <p className="text-sm sm:text-base leading-loose text-zinc-500 mb-10 max-w-md" {...aosProps({ delay: 300 })}>
         {t("contact.subtitle")}
       </p>
 
@@ -77,7 +79,7 @@ const Contact = () => {
                 // mailto: dibuka di tab yang sama agar tidak menyisakan tab kosong
                 target={c.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel="noopener noreferrer"
-                className="group/link flex items-center gap-3 p-3 rounded-xl border border-zinc-700/60 bg-zinc-800/40 hover:bg-zinc-800/80 hover:-translate-y-0.5 transition-all duration-300"
+                className="group/link flex items-center gap-3 p-3 rounded-xl border border-zinc-700/60 bg-zinc-800/40 hover:bg-zinc-800/80 transition-[color,background-color,border-color] duration-300"
                 style={{ borderColor: `${c.color}33` }}
               >
                 <span
@@ -166,7 +168,7 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full font-semibold flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] active:scale-[0.98] cursor-pointer transition-all duration-300"
+                className="w-full font-semibold flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] active:scale-[0.98] cursor-pointer transition-[color,background-color,border-color,transform] duration-300"
               >
                 <i className="ri-send-plane-line text-base" />
                 <ShinyText text={t("contact.formSend")} disabled={false} speed={3} className="custom-class" />

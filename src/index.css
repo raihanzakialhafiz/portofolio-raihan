@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   Design tokens
+   Sumber tunggal untuk warna, tipografi, z-index, dan easing.
+   Tidak ada nilai warna/font mentah di komponen — selalu lewat token.
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Pasangan tipografi: display berkarakter + body netral.
+     Sebelumnya satu font (Poppins) untuk keduanya = halaman template. */
+  --font-display: "Space Grotesk", "Poppins", sans-serif;
+  --font-body: "Poppins", sans-serif;
+}
+
+:root {
+  /* Warna — OKLCH. Ink diberi rona dingin, bukan #000 datar. */
+  --color-ink: oklch(13% 0.006 220);
+  --color-accent: oklch(78% 0.14 195);
+  --color-field: oklch(21% 0.021 260);
+  --color-field-ink: oklch(96% 0.002 260);
+  --color-field-muted: oklch(58% 0.012 260);
+
+  /* Skala z-index bernama — menggantikan angka arbitrer seperti 10000. */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-nav: 50;
+  --z-modal: 100;
+  --z-overlay: 200;
+
+  /* Easing & durasi */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-short: 140ms;
+  --dur-mid: 240ms;
+}
+
 @layer base {
   body {
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-body);
   }
 
-  /* Global focus ring — cyan accent */
+  /* Judul memakai display face — roman, tidak pernah italic. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-style: normal;
+  }
+
+  /* Focus ring tampil seketika — tidak pernah dianimasikan. */
   :focus-visible {
-    outline: 2px solid #22d3ee;
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 6px;
+    transition: none;
   }
 
-  /* Form inputs: dark fill so placeholders are readable */
   input,
   textarea {
-    background-color: #111827;
-    color: #f4f4f5;
+    background-color: var(--color-field);
+    color: var(--color-field-ink);
   }
 
   input::placeholder,
   textarea::placeholder {
-    color: #71717a;
+    color: var(--color-field-muted);
+  }
+
+  /* Motion berkurang: gerak spasial runtuh jadi crossfade singkat. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 150ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

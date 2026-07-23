@@ -26,7 +26,7 @@ const LangSwitch = ({ className = "" }) => {
           key={lng}
           onClick={() => i18n.changeLanguage(lng)}
           aria-pressed={current === lng}
-          className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase transition-all duration-200 cursor-pointer ${
+          className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase transition-[color,background-color,border-color] duration-200 cursor-pointer ${
             current === lng
               ? "bg-cyan-500/20 text-cyan-300"
               : "text-zinc-500 hover:text-zinc-200"
@@ -76,12 +76,21 @@ const Navbar = ({ hidden = false }) => {
   if (hidden) return null;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled
-        ? "bg-zinc-950/85 backdrop-blur-xl border-b border-zinc-800/70 shadow-lg shadow-black/30 py-3"
-        : "bg-transparent py-5"
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
+    /* N10 — scroll-morph: di puncak halaman nav menempel di tepi tanpa latar dan
+       tanpa hairline border-bottom (sidik jari "AI nav"); begitu di-scroll ia
+       menyusut jadi pill mengambang yang terlepas dari tepi layar. */
+    <nav
+      className={`fixed top-0 left-0 right-0 z-[var(--z-nav)] transition-[padding] duration-300 ${
+        scrolled ? "pt-3" : "pt-5"
+      }`}
+    >
+      <div
+        className={`mx-auto flex items-center justify-between transition-[max-width,background-color,border-color,border-radius,padding] duration-300 ease-out ${
+          scrolled
+            ? "max-w-3xl rounded-full border border-zinc-700/60 bg-zinc-950/80 backdrop-blur-xl px-4 md:px-5 py-2 shadow-[0_8px_28px_-14px_rgba(0,0,0,0.8)]"
+            : "max-w-7xl rounded-none border border-transparent px-6 md:px-10 py-1"
+        }`}
+      >
 
         {/* Logo */}
         <a href="#home" className="flex items-center gap-1 text-xl font-bold text-white select-none">
@@ -102,7 +111,7 @@ const Navbar = ({ hidden = false }) => {
                   }`}
                 >
                   {t(`nav.${key}`)}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-cyan-400 rounded-full transition-all duration-300 ${
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-cyan-400 rounded-full transition-[color,background-color,border-color] duration-300 ${
                     isActive ? "w-full" : "w-0 group-hover:w-full"
                   }`} />
                 </a>
@@ -111,16 +120,10 @@ const Navbar = ({ hidden = false }) => {
           })}
         </ul>
 
-        {/* Language switch + CTA (desktop) */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Tombol CTA dilepas: duplikat dengan link "Kontak", dan membuat pill
+            melewati batas lebar yang membuatnya kembali terbaca sebagai bar. */}
+        <div className="hidden md:flex items-center">
           <LangSwitch />
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 transition-all duration-300"
-          >
-            <i className="ri-mail-line" />
-            {t("nav.cta")}
-          </a>
         </div>
 
         {/* Language switch + hamburger (mobile) */}
@@ -131,16 +134,16 @@ const Navbar = ({ hidden = false }) => {
           className="flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/10 transition-colors"
           aria-label={t("nav.toggleMenu")}
         >
-          <span className={`block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-white rounded-full transition-[transform,opacity] duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-white rounded-full transition-[transform,opacity] duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-white rounded-full transition-[transform,opacity] duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-        <ul className="flex flex-col px-6 py-4 gap-1 bg-zinc-950/95 border-t border-zinc-800/60">
+      <div className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
+        <ul className="mx-4 mt-2 flex flex-col p-3 gap-1 rounded-2xl border border-zinc-700/60 bg-zinc-950/90 backdrop-blur-xl shadow-[0_8px_28px_-14px_rgba(0,0,0,0.8)]">
           {LINKS.map(({ href, key }) => {
             const id = href.replace("#", "");
             const isActive = activeSection === id;

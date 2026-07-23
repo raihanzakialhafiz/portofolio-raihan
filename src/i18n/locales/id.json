@@ -57,7 +57,11 @@
     "verified": "Terverifikasi",
     "viewOnDrive": "Lihat Dokumen di Google Drive",
     "driveUnavailable": "Link Google Drive belum tersedia",
-    "noImage": "Belum ada gambar sertifikat."
+    "noImage": "Belum ada gambar sertifikat.",
+    "colCredential": "Kredensial",
+    "colIssuer": "Penerbit",
+    "colYear": "Tahun",
+    "colDocument": "Dokumen"
   },
   "projects": {
     "title": "Proyek",
@@ -89,5 +93,13 @@
     "home": "Beranda",
     "about": "Tentang Saya",
     "project": "Proyek"
+  },
+  "common": {
+    "showMore": "Tampilkan {{count}} lainnya",
+    "showLess": "Tampilkan lebih sedikit",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "close": "Tutup",
+    "enlarge": "Klik untuk perbesar"
   }
 }

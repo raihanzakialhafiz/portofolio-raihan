@@ -1,5 +1,7 @@
 .shiny-text {
-  color: #b5b5b5a4; /* Adjust this color to change intensity/style */
+  /* Sebelumnya #b5b5b5a4 — abu-abu 64% alpha. Terlalu redup untuk judul utama
+     halaman; kontras terhadap latar gelap jatuh di bawah ambang nyaman baca. */
+  color: #e7e9ee;
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 40%,

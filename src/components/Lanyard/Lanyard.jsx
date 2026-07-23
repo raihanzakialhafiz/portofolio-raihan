@@ -56,13 +56,25 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
   useEffect(() => {
     const CARD_W = 1600, CARD_H = 2250; // 2× rasio 0.8:1.125
 
+    // Sisi depan kartu di card.glb TIDAK memakai seluruh tekstur — atlasnya juga
+    // memuat sisi belakang. Diukur dari UV mesh + tekstur kalibrasi bergrid:
+    // muka kartu hanya menyampel U 0→0.5 dan V 0→0.7572 (kuadran kiri-atas).
+    // Menggambar foto ke seluruh kanvas membuat hanya seperempatnya yang tampil.
+    const FACE_U = 0.5;
+    const FACE_V = 0.7572;
+
     const buildTex = (img) => {
       const canvas = document.createElement('canvas');
       canvas.width  = CARD_W;
       canvas.height = CARD_H;
       const ctx = canvas.getContext('2d');
 
-      // object-fit: cover
+      // Sisa atlas (punggung & sisi kartu) diberi warna gelap, bukan transparan.
+      ctx.fillStyle = '#0b0f10';
+      ctx.fillRect(0, 0, CARD_W, CARD_H);
+
+      // object-fit: cover terhadap rasio FISIK kartu (0.711), bukan rasio
+      // kotak UV — hasil crop nanti diregangkan balik oleh pemetaan UV.
       const imgAR  = img.naturalWidth / img.naturalHeight;
       const cardAR = CARD_W / CARD_H;
       let sx, sy, sw, sh;
@@ -75,9 +87,13 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
         sw = img.naturalWidth;
         sh = sw / cardAR;
         sx = 0;
-        sy = (img.naturalHeight - sh) / 2;
+        // Bias ke atas: wajah berada di sepertiga atas foto, jadi crop tengah
+        // memotong kepala. 0.32 menjaga kepala tetap utuh dengan ruang di atasnya.
+        sy = Math.max(0, (img.naturalHeight - sh) * 0.32);
       }
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, CARD_W, CARD_H);
+
+      // Digambar HANYA ke kotak UV yang benar-benar dipakai muka kartu.
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, CARD_W * FACE_U, CARD_H * FACE_V);
 
       const tex      = new THREE.CanvasTexture(canvas);
       tex.flipY      = false;

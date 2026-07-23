@@ -28,24 +28,26 @@ const Hero = () => {
           <BlurText
             key={lang}
             text={t("hero.blurb")}
-            delay={150}
+            delay={45}
             animateBy="words"
             direction="top"
             className=" mb-6"
           />
 
-          <div className="flex flex-wrap items-center gap-3">
+          {/* Di mobile kedua tombol selebar penuh supaya tepinya sejajar —
+              sebelumnya melipat jadi dua baris dengan lebar berbeda. */}
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
             <a
               href={`${import.meta.env.BASE_URL}assets/cv raihan.pdf`}
               download="Raihan_Zaki_Alhafiz_CV.pdf"
-              className="font-semibold flex items-center gap-2 px-6 py-3.5 rounded-full bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] transition-all duration-300"
+              className="font-semibold flex items-center justify-center sm:justify-start w-full sm:w-auto gap-2 px-6 py-3.5 rounded-full bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/25 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] transition-[color,background-color,border-color] duration-300"
             >
               <i className="ri-download-2-line text-base" />
               <ShinyText text={t("hero.downloadCv")} disabled={false} speed={3} className="custom-class" />
             </a>
             <a
               href="#project"
-              className="font-semibold flex items-center gap-2 px-6 py-3.5 rounded-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white hover:bg-zinc-800/80 transition-all duration-300"
+              className="font-semibold flex items-center justify-center sm:justify-start w-full sm:w-auto gap-2 px-6 py-3.5 rounded-full bg-zinc-900/60 border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white hover:bg-zinc-800/80 transition-[color,background-color,border-color] duration-300"
             >
               <i className="ri-folder-2-line text-base" />
               <ShinyText text={t("hero.exploreProjects")} disabled={false} speed={3} className="custom-class" />

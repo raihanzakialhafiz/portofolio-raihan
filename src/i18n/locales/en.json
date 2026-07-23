@@ -58,7 +58,11 @@
     "verified": "Verified",
     "viewOnDrive": "View Document on Google Drive",
     "driveUnavailable": "Google Drive link not available",
-    "noImage": "No certificate image yet."
+    "noImage": "No certificate image yet.",
+    "colCredential": "Credential",
+    "colIssuer": "Issuer",
+    "colYear": "Year",
+    "colDocument": "Document"
   },
   "projects": {
     "title": "Projects",
@@ -90,5 +94,13 @@
     "home": "Home",
     "about": "About Me",
     "project": "Project"
+  },
+  "common": {
+    "showMore": "Show {{count}} more",
+    "showLess": "Show less",
+    "prev": "Previous",
+    "next": "Next",
+    "close": "Close",
+    "enlarge": "Click to enlarge"
   }
 }
